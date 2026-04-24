@@ -1,0 +1,14 @@
+Regression:
+Regression in machine learning is a supervised learning technique used to predict 
+continuous, numerical output values (e.g., prices, temperature) based on input features,
+ mapping relationships between variables to forecast outcomes.
+ Types:
+ 1-Linear
+ 2-Multi Linear
+ 3-Lasso
+ 4-Ridge
+ 5-Polynomial
+ 6-Decision Tree
+ 7-random Forest 
+ 8- SVM 
+ 9- KNN
