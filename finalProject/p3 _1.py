@@ -15,76 +15,76 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 # 1. DATA COLLECTION (CREATE CSV FILE)
 # ============================================================
 
-np.random.seed(42)
-n_samples = 2000
+# np.random.seed(42)
+# n_samples = 2000
 
-df = pd.DataFrame()
+# df = pd.DataFrame()
 
-# -------------------------------
-# Core consumption features
-# -------------------------------
-df['avg_consumption'] = np.random.normal(300, 100, n_samples).clip(50)
-df['peak_consumption'] = df['avg_consumption'] + np.random.normal(60, 30, n_samples)
-df['previous_month_consumption'] = df['avg_consumption'] + np.random.normal(0, 50, n_samples)
+# # -------------------------------
+# # Core consumption features
+# # -------------------------------
+# df['avg_consumption'] = np.random.normal(300, 100, n_samples).clip(50)
+# df['peak_consumption'] = df['avg_consumption'] + np.random.normal(60, 30, n_samples)
+# df['previous_month_consumption'] = df['avg_consumption'] + np.random.normal(0, 50, n_samples)
 
-df['sudden_drop'] = np.random.uniform(0, 1, n_samples)
-df['night_day_ratio'] = np.random.uniform(0.5, 2.5, n_samples)
+# df['sudden_drop'] = np.random.uniform(0, 1, n_samples)
+# df['night_day_ratio'] = np.random.uniform(0.5, 2.5, n_samples)
 
-# -------------------------------
-# Electrical features
-# -------------------------------
-df['voltage'] = np.random.normal(220, 10, n_samples)
-df['current'] = np.random.normal(10, 3, n_samples)
+# # -------------------------------
+# # Electrical features
+# # -------------------------------
+# df['voltage'] = np.random.normal(220, 10, n_samples)
+# df['current'] = np.random.normal(10, 3, n_samples)
 
-# -------------------------------
-# Billing & behavior
-# -------------------------------
-df['billing_amount'] = df['avg_consumption'] * np.random.uniform(0.1, 0.3, n_samples)
-df['payment_delay_days'] = np.random.randint(0, 30, n_samples)
+# # -------------------------------
+# # Billing & behavior
+# # -------------------------------
+# df['billing_amount'] = df['avg_consumption'] * np.random.uniform(0.1, 0.3, n_samples)
+# df['payment_delay_days'] = np.random.randint(0, 30, n_samples)
 
-df['meter_variance'] = np.random.uniform(0, 1, n_samples)
+# df['meter_variance'] = np.random.uniform(0, 1, n_samples)
 
-# -------------------------------
-# Grid / technical features
-# -------------------------------
-df['load_factor'] = df['avg_consumption'] / df['peak_consumption']
-df['phase_imbalance'] = np.random.uniform(0, 1, n_samples)
-df['transformer_load'] = np.random.uniform(0.5, 1.5, n_samples)
-df['line_loss'] = np.random.uniform(0, 0.3, n_samples)
+# # -------------------------------
+# # Grid / technical features
+# # -------------------------------
+# df['load_factor'] = df['avg_consumption'] / df['peak_consumption']
+# df['phase_imbalance'] = np.random.uniform(0, 1, n_samples)
+# df['transformer_load'] = np.random.uniform(0.5, 1.5, n_samples)
+# df['line_loss'] = np.random.uniform(0, 0.3, n_samples)
 
-# -------------------------------
-# Environmental
-# -------------------------------
-df['temperature'] = np.random.uniform(20, 45, n_samples)
-df['humidity'] = np.random.uniform(30, 80, n_samples)
+# # -------------------------------
+# # Environmental
+# # -------------------------------
+# df['temperature'] = np.random.uniform(20, 45, n_samples)
+# df['humidity'] = np.random.uniform(30, 80, n_samples)
 
-# -------------------------------
-# Categorical encoded
-# -------------------------------
-df['area_type'] = np.random.choice([0, 1], n_samples)  # 0 rural, 1 urban
-df['connection_type'] = np.random.choice([0, 1], n_samples)  # 0 residential, 1 commercial
-df['tamper_flag'] = np.random.choice([0, 1], n_samples, p=[0.7, 0.3])
+# # -------------------------------
+# # Categorical encoded
+# # -------------------------------
+# df['area_type'] = np.random.choice([0, 1], n_samples)  # 0 rural, 1 urban
+# df['connection_type'] = np.random.choice([0, 1], n_samples)  # 0 residential, 1 commercial
+# df['tamper_flag'] = np.random.choice([0, 1], n_samples, p=[0.7, 0.3])
 
-# ============================================================
-# TARGET CREATION (THEFT LOGIC)
-# ============================================================
-theft_score = (
-    0.3 * df['sudden_drop'] +
-    0.2 * df['tamper_flag'] +
-    0.2 * df['meter_variance'] +
-    0.2 * df['line_loss'] +
-    0.1 * (1 - df['load_factor'])
-)
+# # ============================================================
+# # TARGET CREATION (THEFT LOGIC)
+# # ============================================================
+# theft_score = (
+#     0.3 * df['sudden_drop'] +
+#     0.2 * df['tamper_flag'] +
+#     0.2 * df['meter_variance'] +
+#     0.2 * df['line_loss'] +
+#     0.1 * (1 - df['load_factor'])
+# )
 
-df['theft'] = (theft_score > 0.6).astype(int)
+# df['theft'] = (theft_score > 0.6).astype(int)
 
-# ============================================================
-# SAVE TO CSV
-# ============================================================
-csv_path = r"F:\Python course\machineLearning\finalProject\electricity_theft_data_1.csv"
-df.to_csv(csv_path, index=False)
+# # ============================================================
+# # SAVE TO CSV
+# # ============================================================
+# csv_path = r"F:\Python course\machineLearning\finalProject\electricity_theft_data_1.csv"
+# df.to_csv(csv_path, index=False)
 
-print("✅ CSV file created successfully!")
+# print("✅ CSV file created successfully!")
 
 # ============================================================
 # 2. READ DATA FROM CSV

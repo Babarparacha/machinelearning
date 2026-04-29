@@ -15,80 +15,81 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 # 1. DATA GENERATION + CSV SAVE
 # ============================================================
 
-np.random.seed(42)
-n_samples = 2500
+# np.random.seed(42)
+# n_samples = 2500
 
-df = pd.DataFrame()
+# df = pd.DataFrame()
 
-# -------------------------------
-# BASIC CONSUMPTION
-# -------------------------------
-df['avg_consumption'] = np.random.normal(300, 100, n_samples).clip(50)
-df['peak_consumption'] = df['avg_consumption'] + np.random.normal(60, 30, n_samples)
-df['previous_month_consumption'] = df['avg_consumption'] + np.random.normal(0, 50, n_samples)
+# # -------------------------------
+# # BASIC CONSUMPTION
+# # -------------------------------
+# df['avg_consumption'] = np.random.normal(300, 100, n_samples).clip(50)
+# df['peak_consumption'] = df['avg_consumption'] + np.random.normal(60, 30, n_samples)
+# df['previous_month_consumption'] = df['avg_consumption'] + np.random.normal(0, 50, n_samples)
 
-# -------------------------------
-# TIME BASED FEATURES
-# -------------------------------
-df['weekly_avg_consumption'] = df['avg_consumption'] + np.random.normal(0, 20, n_samples)
-df['daily_variation'] = np.random.uniform(0, 1, n_samples)
-df['usage_spike'] = np.random.uniform(0, 1, n_samples)
-df['usage_drop_ratio'] = np.random.uniform(0, 1, n_samples)
+# # -------------------------------
+# # TIME BASED FEATURES
+# # -------------------------------
+# df['weekly_avg_consumption'] = df['avg_consumption'] + np.random.normal(0, 20, n_samples)
+# df['daily_variation'] = np.random.uniform(0, 1, n_samples)
+# df['usage_spike'] = np.random.uniform(0, 1, n_samples)
+# df['usage_drop_ratio'] = np.random.uniform(0, 1, n_samples)
 
-# -------------------------------
-# ELECTRICAL FEATURES
-# -------------------------------
-df['voltage'] = np.random.normal(220, 10, n_samples)
-df['current'] = np.random.normal(10, 3, n_samples)
-df['power_factor'] = np.random.uniform(0.7, 1.0, n_samples)
-df['frequency'] = np.random.normal(50, 0.5, n_samples)
-df['voltage_fluctuation'] = np.random.uniform(0, 1, n_samples)
+# # -------------------------------
+# # ELECTRICAL FEATURES
+# # -------------------------------
+# df['voltage'] = np.random.normal(220, 10, n_samples)
+# df['current'] = np.random.normal(10, 3, n_samples)
+# df['power_factor'] = np.random.uniform(0.7, 1.0, n_samples)
+# df['frequency'] = np.random.normal(50, 0.5, n_samples)
+# df['voltage_fluctuation'] = np.random.uniform(0, 1, n_samples)
 
-# -------------------------------
-# BILLING FEATURES
-# -------------------------------
-df['billing_amount'] = df['avg_consumption'] * np.random.uniform(0.1, 0.3, n_samples)
-df['avg_bill_last_3_months'] = df['billing_amount'] + np.random.normal(0, 50, n_samples)
-df['bill_difference'] = df['billing_amount'] - df['avg_bill_last_3_months']
-df['payment_delay_days'] = np.random.randint(0, 30, n_samples)
-df['unpaid_bills_count'] = np.random.randint(0, 5, n_samples)
+# # -------------------------------
+# # BILLING FEATURES
+# # -------------------------------
+# df['billing_amount'] = df['avg_consumption'] * np.random.uniform(0.1, 0.3, n_samples)
+# df['avg_bill_last_3_months'] = df['billing_amount'] + np.random.normal(0, 50, n_samples)
+# df['bill_difference'] = df['billing_amount'] - df['avg_bill_last_3_months']
+# df['payment_delay_days'] = np.random.randint(0, 30, n_samples)
+# df['unpaid_bills_count'] = np.random.randint(0, 5, n_samples)
 
-# -------------------------------
-# GRID + NEIGHBOR DATA
-# -------------------------------
-df['neighbor_avg_consumption'] = df['avg_consumption'] + np.random.normal(0, 40, n_samples)
-df['deviation_from_area'] = df['avg_consumption'] - df['neighbor_avg_consumption']
-df['line_loss'] = np.random.uniform(0, 0.3, n_samples)
-df['transformer_load'] = np.random.uniform(0.5, 1.5, n_samples)
+# # -------------------------------
+# # GRID + NEIGHBOR DATA
+# # -------------------------------
+# df['neighbor_avg_consumption'] = df['avg_consumption'] + np.random.normal(0, 40, n_samples)
+# df['deviation_from_area'] = df['avg_consumption'] - df['neighbor_avg_consumption']
+# df['line_loss'] = np.random.uniform(0, 0.3, n_samples)
+# df['transformer_load'] = np.random.uniform(0.5, 1.5, n_samples)
 
-# -------------------------------
-# FLAGS
-# -------------------------------
-df['tamper_flag'] = np.random.choice([0, 1], n_samples, p=[0.7, 0.3])
+# # -------------------------------
+# # FLAGS
+# # -------------------------------
+# df['tamper_flag'] = np.random.choice([0, 1], n_samples, p=[0.7, 0.3])
 
-# ============================================================
-# TARGET CREATION
-# ============================================================
-theft_score = (
-    0.25 * df['usage_drop_ratio'] +
-    0.2 * df['tamper_flag'] +
-    0.15 * abs(df['deviation_from_area']) +
-    0.15 * df['line_loss'] +
-    0.1 * (1 - df['power_factor']) +
-    0.15 * df['voltage_fluctuation']
-)
+# # ============================================================
+# # TARGET CREATION
+# # ============================================================
+# theft_score = (
+#     0.25 * df['usage_drop_ratio'] +
+#     0.2 * df['tamper_flag'] +
+#     0.15 * abs(df['deviation_from_area']) +
+#     0.15 * df['line_loss'] +
+#     0.1 * (1 - df['power_factor']) +
+#     0.15 * df['voltage_fluctuation']
+# )
 
-df['theft'] = (theft_score > 0.6).astype(int)
+# df['theft'] = (theft_score > 0.6).astype(int)
 
-# SAVE CSV
-csv_path = r"F:\Python course\machineLearning\finalProject\electricity_theft_data_advanced.csv"
-df.to_csv(csv_path, index=False)
-print("✅ CSV Created")
+# # SAVE CSV
+# csv_path = r"F:\Python course\machineLearning\finalProject\electricity_theft_data_advanced.csv"
+# df.to_csv(csv_path, index=False)
+# print("✅ CSV Created")
 
 # ============================================================
 # 2. LOAD CSV
 # ============================================================
-data = pd.read_csv(csv_path)
+data = pd.read_csv(r"F:\Python course\machineLearning\finalProject\electricity_theft_data_advanced.csv")
+# data = pd.read_csv(csv_path)
 
 # ============================================================
 # 3. FEATURE ENGINEERING
