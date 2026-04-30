@@ -300,5 +300,18 @@ try:
         print("\n⚠️ Theft Detected!")
     else:
         print("\n✅ No Theft Detected")
+ # ===============================
+    # SAVE TO CSV
+    # ===============================
+    import os
+    file_path = "theft_predictions_data.csv"
+
+    # If file exists → append, else create with header
+    if os.path.exists(file_path):
+        input_data.to_csv(file_path, mode='a', header=False, index=False)
+    else:
+        input_data.to_csv(file_path, mode='w', header=True, index=False)
+
+    print(f"\n📁 Data saved to {file_path}")
 except Exception as e:
     print("An error occurred:", e)
